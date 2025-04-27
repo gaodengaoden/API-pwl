@@ -72,6 +72,23 @@ app.put("/products/:id", (req, res) => {
         data: products[productIndex]
     });
 });
+
+app.delete("/products/:id", (req, res) => {
+    const id = parseInt(req.params.id);
+    const productIndex = products.findIndex(p => p.id === id);
+
+    if (productIndex === -1) {
+        return res.status(404).json({ status: "error", message: "Produk tidak ditemukan" });
+    }
+
+    const deletedProduct = products.splice(productIndex, 1);
+
+    res.json({
+        status: "success",
+        message: "Produk berhasil dihapus",
+        data: deletedProduct[0]
+    });
+});
 app.listen(port, () => {
     console.log('Server berjalan di http://localhost:3000/products');
 });
